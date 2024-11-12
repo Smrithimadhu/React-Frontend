@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Footer from "./components/shared/Footer";
 import Registration from "./pages/Registration";
+import About from "./pages/About";
 function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registration" element={<Registration />} />
+          <Route path="/about" element={<About/>} />
         </Routes>
       </main>
 
