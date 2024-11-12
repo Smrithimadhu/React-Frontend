@@ -5,6 +5,7 @@ const Footer = function () {
 
   return (
     <footer className="text-center">
+      <br></br><br></br>
       <hr />
       <MenuList />
       <p>Copyright {copyrightYear} | TheBlogHub</p>
