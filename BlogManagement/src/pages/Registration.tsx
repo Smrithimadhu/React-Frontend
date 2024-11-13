@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IAuthor } from "../models/IAuthor";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 // import { HelmetProvider } from "react-helmet-async";
 //import { Helmet } from "react-helmet-async";
 
@@ -9,6 +11,7 @@ const Registration = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   document.title = "Registration";
@@ -35,8 +38,18 @@ const Registration = () => {
         formData
       );
       console.log("Author added:", response.data);
-      setIsSaved(true);
-      setError(null);
+      toast.success("Registration successful!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        navigate("/authors"); // Redirect to authors page
+      }, 2000);
       reset();
     } catch (error: any) {
       setError(
@@ -44,6 +57,15 @@ const Registration = () => {
           error.message ||
           "An unexpected error occurred."
       );
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.error("Error adding author:", error);
     } finally {
       setIsLoading(false);
@@ -51,12 +73,18 @@ const Registration = () => {
   };
 
   return (
+    <>
+    {/* <HelmetProvider>
+      <title>Registration</title>
+    </HelmetProvider> */}
     <div className="container">
+      <ToastContainer />
       <div className="row">
         <div className="col-md-12">
           <br></br>
           <h1 className="text-center">REGISTRATION</h1>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
         </div>
         <form
           className="col-md-6 offset-md-3"
@@ -69,12 +97,22 @@ const Registration = () => {
             <div className="col-sm-10">
               <input
                 type="text"
-                className={`form-control ${errors.username ? "is-invalid" : ""}`}
+                className={`form-control ${
+                  errors.username ? "is-invalid" : ""
+                }`}
                 placeholder="Enter Name"
-                {...register("username", { required: true })}
+                {...register("username", {
+                  required: "Name is required",
+                  minLength: {
+                    value: 5,
+                    message: "Name must be at least 5 characters",
+                  },
+                })}
               />
               {errors.username && (
-                <div className="invalid-feedback">Name is required</div>
+                <div className="invalid-feedback">
+                  {errors.username.message}
+                </div>
               )}
             </div>
           </div>
@@ -148,6 +186,8 @@ const Registration = () => {
         </form>
       </div>
     </div>
+    </>
+    
   );
 };
 

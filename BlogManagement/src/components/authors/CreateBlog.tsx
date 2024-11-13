@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IAuthor } from "../../models/IAuthor";
 import { IBlogCreation } from "../../models/IBlogCreation";
-// Adjust path as needed
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateBlog = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<IAuthor | null>(null); //Added to hold user data
+  const navigate = useNavigate();
+  const [user, setUser] = useState<IAuthor | null>(null); // Added to hold user data
 
   const { userId } = useParams();
 
@@ -46,21 +47,31 @@ const CreateBlog = () => {
     setIsSaved(false);
 
     try {
-      //Checking if user data was fetched successfully
+      // Checking if user data was fetched successfully
       if (!user) {
         throw new Error("User data not loaded. Please try again later.");
       }
 
-      // including user data in the formData
+      // Including user data in the formData
       const completeFormData = { ...formData, user };
 
       const response = await axios.post(
         `http://localhost:8080/api/blogs/create/${userId}`,
         completeFormData
-      ); //removed hardcoded url
+      ); 
       console.log("Blog created:", response.data);
-      setIsSaved(true);
-      setError(null);
+      toast.success("Blog added successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        navigate("/blogs"); 
+      }, 2000);
       reset();
     } catch (err: any) {
       setError(
@@ -68,6 +79,15 @@ const CreateBlog = () => {
           err.message ||
           "An unexpected error occurred. See console for details."
       );
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.error("Error creating blog:", err);
     } finally {
       setIsLoading(false);
@@ -76,6 +96,7 @@ const CreateBlog = () => {
 
   return (
     <div className="container">
+      <ToastContainer />
       <div className="row">
         <div className="col-md-12">
           <h1 className="text-center">CREATE NEW BLOG</h1>
