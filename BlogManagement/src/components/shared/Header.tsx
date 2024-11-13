@@ -3,10 +3,10 @@ import MenuList from "./MenuList";
 
 function Header() {
   return (
-    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark" >
       <div className="container-fluid">
-        <Link className="navbar-brand" to="#">
-          My Blog App
+        <Link className="navbar-brand" to="/">
+          TheBlogHub
         </Link>
         <button
           className="navbar-toggler"
