@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { IAuthor } from "../../models/IAuthor";
 import { IBlogCreation } from "../../models/IBlogCreation";
- // Adjust path as needed
+// Adjust path as needed
 
 const CreateBlog = () => {
   const [isSaved, setIsSaved] = useState(false);
@@ -25,7 +25,9 @@ const CreateBlog = () => {
     // Fetching user details using the userId from useParams
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/users/${userId}`); 
+        const response = await axios.get(
+          `http://localhost:8080/api/users/${userId}`
+        );
         setUser(response.data);
       } catch (err) {
         setError(`Failed to fetch user data for user ID ${userId}.`);
@@ -37,7 +39,6 @@ const CreateBlog = () => {
       fetchUser();
     }
   }, [userId]);
-
 
   const onSubmit = async (formData: IBlogCreation) => {
     setIsLoading(true);
@@ -51,9 +52,12 @@ const CreateBlog = () => {
       }
 
       // including user data in the formData
-      const completeFormData = {...formData, user};
+      const completeFormData = { ...formData, user };
 
-      const response = await axios.post(`http://localhost:8080/api/blogs/create/${userId}`, completeFormData); //removed hardcoded url
+      const response = await axios.post(
+        `http://localhost:8080/api/blogs/create/${userId}`,
+        completeFormData
+      ); //removed hardcoded url
       console.log("Blog created:", response.data);
       setIsSaved(true);
       setError(null);
@@ -74,9 +78,12 @@ const CreateBlog = () => {
     <div className="container">
       <div className="row">
         <div className="col-md-12">
-          <h1>Create New Blog</h1>
+          <h1 className="text-center">CREATE NEW BLOG</h1>
         </div>
-        <form className="col-md-8 offset-md-2" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="col-md-8 offset-md-2"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="mb-3">
             <label htmlFor="title">Title</label>
             <input
@@ -90,12 +97,21 @@ const CreateBlog = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="category">Category</label>
-            <input
-              type="text"
-              className={`form-control ${errors.category ? "is-invalid" : ""}`}
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <select
+              id="category"
+              className={`form-select ${errors.category ? "is-invalid" : ""}`}
               {...register("category", { required: "Category is required" })}
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="TECHNOLOGY">TECHNOLOGY</option>
+              <option value="TRAVEL">TRAVEL</option>
+              <option value="FOOD">FOOD</option>
+              <option value="SPORTS">SPORTS</option>
+              <option value="POLITICS">POLITICS</option>
+            </select>
             {errors.category && (
               <div className="invalid-feedback">{errors.category.message}</div>
             )}
@@ -109,7 +125,10 @@ const CreateBlog = () => {
               rows={8}
               {...register("content", {
                 required: "Content is required",
-                minLength: { value: 50, message: "Content must be at least 50 characters" },
+                minLength: {
+                  value: 50,
+                  message: "Content must be at least 50 characters",
+                },
               })}
             />
             {errors.content && (
@@ -121,7 +140,7 @@ const CreateBlog = () => {
           {isSaved && <p>Blog created successfully!</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
 
-          <button type="submit" disabled={isLoading}>
+          <button type="submit" disabled={isLoading} className="btn btn-primary">
             {isLoading ? "Saving..." : "Create Blog"}
           </button>
         </form>
@@ -131,4 +150,3 @@ const CreateBlog = () => {
 };
 
 export default CreateBlog;
-

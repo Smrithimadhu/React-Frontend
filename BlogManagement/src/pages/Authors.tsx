@@ -62,7 +62,7 @@ const Authors = () => {
                 <div className="card-body" style={{textAlign:"center"}}>
                   <h5 className="card-title">
                     <Link
-                      to={`/users/${author.userId}`}
+                      to={`/authors/${author.userId}`}
                       className="text-decoration-none"
                     >
                       {author.username}

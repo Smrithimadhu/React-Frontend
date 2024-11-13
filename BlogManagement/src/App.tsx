@@ -11,6 +11,7 @@ import BlogDetails from "./components/blogs/BlogDetails";
 import Authors from "./pages/Authors";
 import Blogs from "./pages/Blogs";
 import About from "./pages/About";
+import AuthorDetails from "./components/authors/AuthorDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -23,7 +24,7 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/view/:blogId" element={<BlogDetails />} />
           <Route path="/authors" element={<Authors />} />
-          <Route path="/authors/:userId" element={<Authors />} />
+          <Route path="/authors/:userId" element={<AuthorDetails />} />
           <Route path="/blogs/create/:userId" element={<CreateBlog />} />
           <Route path="/about" element={<About/>} />
         </Routes>

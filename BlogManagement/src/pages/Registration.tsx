@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IAuthor } from "../models/IAuthor";
+// import { HelmetProvider } from "react-helmet-async";
 //import { Helmet } from "react-helmet-async";
 
 const Registration = () => {
@@ -13,13 +14,14 @@ const Registration = () => {
   //   document.title = "Registration";
   // }, []);
 
-  // <Helmet>
+  // <HelmetProvider>
   //   <title>Registration</title>
-  // </Helmet>;
+  // </HelmetProvider>;
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IAuthor>();
 
@@ -35,6 +37,7 @@ const Registration = () => {
       console.log("Author added:", response.data);
       setIsSaved(true);
       setError(null);
+      reset();
     } catch (error: any) {
       setError(
         error.response?.data?.error ||
@@ -52,7 +55,7 @@ const Registration = () => {
       <div className="row">
         <div className="col-md-12">
           <br></br>
-          <h1 className="text-center">Registration</h1>
+          <h1 className="text-center">REGISTRATION</h1>
           <br></br><br></br>
         </div>
         <form
