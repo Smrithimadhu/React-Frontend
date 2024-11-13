@@ -1,6 +1,6 @@
 export interface IAuthor {
-  id?: number; // optional property
-  name: string;
+  userId?: number; // optional property
+  username: string;
   email: string;
   password: string;
 }
