@@ -5,17 +5,29 @@ import { IAuthor } from "../models/IAuthor";
 import { Helmet } from "react-helmet-async";
  
  
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+// import { HelmetProvider } from "react-helmet-async";
+//import { Helmet } from "react-helmet-async";
+
 const Registration = () => {
   const [isSaved, setIsSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
- 
-  
- 
- 
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   document.title = "Registration";
+  // }, []);
+
+  // <HelmetProvider>
+  //   <title>Registration</title>
+  // </HelmetProvider>;
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IAuthor>();
  
@@ -30,14 +42,34 @@ const Registration = () => {
         formData
       );
       console.log("Author added:", response.data);
-      setIsSaved(true);
-      setError(null);
+      toast.success("Registration successful!", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      setTimeout(() => {
+        navigate("/authors"); // Redirect to authors page
+      }, 2000);
+      reset();
     } catch (error: any) {
       setError(
         error.response?.data?.error ||
           error.message ||
           "An unexpected error occurred."
       );
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       console.error("Error adding author:", error);
     } finally {
       setIsLoading(false);
@@ -46,14 +78,19 @@ const Registration = () => {
  
  
   return (
-    <div className="container">
-      <Helmet>
+    <>
+    {/* <HelmetProvider>
+      <title>Registration</title>
+    </HelmetProvider> */}
+    <Helmet>
     <title>Registration</title>
   </Helmet>
+    <div className="container">
+      <ToastContainer />
       <div className="row">
         <div className="col-md-12">
           <br></br>
-          <h1 className="text-center">Registration</h1>
+          <h1 className="text-center">REGISTRATION</h1>
           <br></br>
           <br></br>
         </div>
@@ -72,10 +109,18 @@ const Registration = () => {
                   errors.username ? "is-invalid" : ""
                 }`}
                 placeholder="Enter Name"
-                {...register("username", { required: true })}
+                {...register("username", {
+                  required: "Name is required",
+                  minLength: {
+                    value: 5,
+                    message: "Name must be at least 5 characters",
+                  },
+                })}
               />
               {errors.username && (
-                <div className="invalid-feedback">Name is required</div>
+                <div className="invalid-feedback">
+                  {errors.username.message}
+                </div>
               )}
             </div>
           </div>
@@ -149,6 +194,8 @@ const Registration = () => {
         </form>
       </div>
     </div>
+    </>
+    
   );
 };
  

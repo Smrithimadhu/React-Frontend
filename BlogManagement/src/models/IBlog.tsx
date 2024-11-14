@@ -1,6 +1,5 @@
 import { IAuthor } from "./IAuthor";
 
-
 export interface IBlog {
   blogId: number;
   title: string;

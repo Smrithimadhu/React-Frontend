@@ -21,7 +21,7 @@ const About = () => {
             <div className="col-12 col-lg-6 col-xl-7">
               <div className="row justify-content-xl-center">
                 <div className="col-12 col-xl-11">
-                  <h2 className="mb-3">About Us</h2>
+                  <h2 className="mb-3">ABOUT US</h2>
                   <p className="lead fs-4 text-secondary mb-3">
                   Blog management encompasses all the tasks involved in creating, maintaining, and growing a blog.
                   </p>

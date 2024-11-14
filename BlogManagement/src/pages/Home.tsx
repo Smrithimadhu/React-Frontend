@@ -42,7 +42,7 @@ const Home = () => {
             audience grow. Join us today and transform the way you blog.
           </p>
           <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <Link type="button" className="btn btn-primary btn-lg px-4 gap-3" to={"/register"}>
+            <Link type="button" className="btn btn-primary btn-lg px-4 gap-3" to={"/registration"}>
               Register
             </Link>
           </div>

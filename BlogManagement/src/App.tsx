@@ -5,14 +5,6 @@ import Header from "./components/shared/Header";
 import Footer from "./components/shared/Footer";
 import Home from "./pages/Home";
 import Registration from "./pages/Registration";
-import Blogs from "./pages/Blogs";
-import Authors from "./pages/Authors";
-import BlogDetails from "./components/BlogDetails";
-import About from "./pages/About";
-import UpdateAuthor from "./components/Author/UpdateAuthor";
-import UpdateBlog from "./components/Blogs/UpdateBlog";
-import MyBlogs from "./components/Blogs/MyBlog";
-
 function App() {
   return (
     <BrowserRouter>
@@ -21,9 +13,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/blogs/*" element={<BlogRoutes />} />
-          <Route path="/authors/*" element={<AuthorRoutes />} />
-          <Route path="/about" element={<About />} />
         </Routes>
       </main>
       <Footer />
