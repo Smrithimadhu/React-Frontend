@@ -1,3 +1,4 @@
+// App.tsx
 import "./App.css";
 import "./components/shared/Header";
 import Header from "./components/shared/Header";
@@ -10,13 +11,13 @@ import Blogs from "./pages/Blogs";
 import Authors from "./pages/Authors";
 import BlogDetails from "./components/BlogDetails";
 import About from "./pages/About";
-
+import AuthorDetails from "./components/AuthorDetails";
+import BlogList from "./components/shared/BlogList"; // Import BlogList
 
 function App() {
   return (
     <BrowserRouter>
-      <Header></Header>
-
+      <Header />
 
       <main className="container mt-5 pt-2">
         <Routes>
@@ -25,16 +26,15 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogs/view/:blogId" element={<BlogDetails />} />
           <Route path="/authors" element={<Authors />} />
-          <Route path="/authors/:userId" element={<Authors />} />
-          <Route path="/about" element={<About/>}/>
+          <Route path="/authors/:userId" element={<AuthorDetails />} />
+          <Route path="/authors/:userId/blogs" element={<BlogList />} /> {/* Route for BlogList */}
+          <Route path="/about" element={<About />} />
         </Routes>
       </main>
 
-
-      <Footer></Footer>
+      <Footer />
     </BrowserRouter>
   );
 }
-
 
 export default App;

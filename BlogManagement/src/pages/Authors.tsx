@@ -1,19 +1,17 @@
+// Authors.tsx
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IAuthor } from "../models/IAuthor";
-
 
 const Authors = () => {
   const [isLoading, setIsLoading] = useState(true); 
   const [authorList, setAuthorList] = useState<IAuthor[]>([]); 
   const [error, setError] = useState<string | null>(null); 
 
-
   useEffect(() => {
     document.title = "Authors";
   }, []);
-
 
   useEffect(() => {
     async function fetchAllAuthors() {
@@ -29,18 +27,14 @@ const Authors = () => {
       }
     }
 
-
     fetchAllAuthors();
   }, []);
 
-
   return (
     <>
-    <h2 style={{textAlign:"center"}}>AUTHORS</h2>
+      <h2 style={{textAlign:"center"}}>AUTHORS</h2>
       <div className="container mt-5 mb-4">
         <div className="row">
-
-
           {isLoading && (
             <div className="col-12 text-center mt-5">
               <div className="spinner-border text-primary" role="status">
@@ -48,7 +42,6 @@ const Authors = () => {
               </div>
             </div>
           )}
-
 
           {error && (
             <div className="col-12 alert alert-danger mt-5" role="alert">
@@ -62,13 +55,13 @@ const Authors = () => {
                 <div className="card-body" style={{textAlign:"center"}}>
                   <h5 className="card-title">
                     <Link
-                      to={`/users/${author.userId}`}
+                      to={`/authors/${author.userId}`} // Ensure this points to the AuthorDetails
                       className="text-decoration-none"
                     >
                       {author.username}
                     </Link>
                   </h5>
-                  <p className="card-text">Email: {author.username}</p>
+                  <p className="card-text">Email: {author.email}</p> {/* Updated to show email */}
                 </div>
               </div>
             </div>
@@ -79,5 +72,5 @@ const Authors = () => {
   );
 };
 
+export default Authors;
 
-export default Authors
