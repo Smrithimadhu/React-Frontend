@@ -1,8 +1,12 @@
 import  Images  from "../assets/Images/AboutUs.jpg"
+import { Helmet} from "react-helmet-async";
 
 const About = () => {
   return (
     <div>
+      <Helmet>
+        <title>About Us</title>
+      </Helmet>
       <section className="py-3 py-md-5">
         <div className="container">
           <div className="row gy-3 gy-md-4 gy-lg-0 align-items-lg-center">

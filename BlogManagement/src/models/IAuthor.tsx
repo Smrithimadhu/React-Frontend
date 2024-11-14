@@ -3,4 +3,5 @@ export interface IAuthor {
   username: string;
   email: string;
   password: string;
+  onUpdate: (author: IAuthor) => void;
 }

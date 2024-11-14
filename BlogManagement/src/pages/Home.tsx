@@ -1,7 +1,12 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
+    <>
+    <Helmet>
+        <title>Home</title>
+      </Helmet>
     <div className="container-fluid">
       <div
         className="px-4 py-5 my-5 text-center"
@@ -117,6 +122,7 @@ const Home = () => {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { IAuthor } from "../models/IAuthor";
+import { Helmet } from "react-helmet-async";
 
 
 const Authors = () => {
@@ -36,6 +37,9 @@ const Authors = () => {
 
   return (
     <>
+    <Helmet>
+        <title>Authors</title>
+      </Helmet>
     <h2 style={{textAlign:"center"}}>AUTHORS</h2>
       <div className="container mt-5 mb-4">
         <div className="row">

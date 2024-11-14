@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { IAuthor } from "../models/IAuthor";
-// import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
  
  
 const Registration = () => {
@@ -10,15 +10,7 @@ const Registration = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
  
- 
-  // useEffect(() => {
-  //   document.title = "Registration";
-  // }, []);
- 
- 
-  // <Helmet>
-  //   <title>Registration</title>
-  // </Helmet>;
+  
  
  
   const {
@@ -55,6 +47,9 @@ const Registration = () => {
  
   return (
     <div className="container">
+      <Helmet>
+    <title>Registration</title>
+  </Helmet>
       <div className="row">
         <div className="col-md-12">
           <br></br>

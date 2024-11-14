@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { IBlog } from "../models/IBlog";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { IBlog } from "../models/IBlog";
+import { format } from 'date-fns';
 
 
 const BlogDetails = () => {
@@ -10,12 +11,15 @@ const BlogDetails = () => {
   const [error, setError] = useState<string | null>(null); 
 
 
+
   const { blogId } = useParams();
+
 
 
   useEffect(() => {
     document.title = "Blog-Details";
   }, []);
+
 
 
   useEffect(() => {
@@ -33,8 +37,10 @@ const BlogDetails = () => {
     }
 
 
+
     fetchBlogDetails();
   }, [blogId]);
+
 
 
   return (
@@ -44,6 +50,7 @@ const BlogDetails = () => {
         <div className="row">
 
 
+
           {isLoading && (
             <div className="col-12 text-center mt-5">
               <div className="spinner-border text-primary" role="status">
@@ -51,6 +58,7 @@ const BlogDetails = () => {
               </div>
             </div>
           )}
+
 
 
           {error && (
@@ -63,7 +71,7 @@ const BlogDetails = () => {
             <h2>{blogDetail?.title}</h2>
             <p><strong>Author:</strong>{blogDetail?.user.username}</p>
             <p><strong>Category:</strong>{blogDetail?.category}</p>
-            <p><strong>Published:</strong>{new Date(blogDetail?.createdAt).toLocaleDateString()}</p>
+            {/* <p><strong>Published:</strong>{format(new Date(blogDetail?.createdAt), "yyyy-MM-dd HH:mm:ss")}</p> */}
             <hr />
             <p>{blogDetail?.content}</p>
           </div>
@@ -72,6 +80,7 @@ const BlogDetails = () => {
     </>
   )
 }
+
 
 
 export default BlogDetails
