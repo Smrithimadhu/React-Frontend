@@ -1,0 +1,9 @@
+body{
+  background-image: linear-gradient(to top, black, white, black);
+}
+hr.bold-line {
+  border: none; /* Remove the default border */
+  height: 3px;  /* Set the thickness */
+  background-color: white; /* Set the color */
+  margin: 20px 0; /* Optional: Add some margin */
+}

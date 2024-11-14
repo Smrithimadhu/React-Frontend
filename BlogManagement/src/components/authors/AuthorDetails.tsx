@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { IAuthor } from "../../models/IAuthor";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Helmet } from "react-helmet-async";
 
 const AuthorDetails = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +54,7 @@ const AuthorDetails = () => {
       setDeleteSuccess(false);
 
       try {
-        await axios.delete(`http://localhost:8080/api/users/delete/${userId}`); 
+        await axios.delete(`http://localhost:8080/api/users/delete/${userId}`);
         setDeleteSuccess(true);
         setTimeout(() => {
           navigate("/authors");
@@ -72,7 +73,7 @@ const AuthorDetails = () => {
   };
 
   const handleViewBlogs = () => {
-    navigate(`/blogs/${userId}`);
+    navigate(`/blogs/user/${userId}`);
   };
 
   useEffect(() => {
@@ -91,6 +92,9 @@ const AuthorDetails = () => {
 
   return (
     <div className="container mt-5">
+      <Helmet>
+        <title>Author Details</title>
+      </Helmet>
       <ToastContainer /> {/* Add ToastContainer here */}
       <div className="row justify-content-center">
         <div className="col-md-6">
@@ -108,21 +112,39 @@ const AuthorDetails = () => {
             </div>
           )}
 
-
           {authorDetail && (
             <div className="card">
-              <div className="card-body">
+              <div
+                className="card-body p-4"
+                style={{
+                  backgroundImage:
+                    "url('https://thumbs.dreamstime.com/b/abstract-blurred-orange-color-peach-background-blur-festival-lights-outdoor-pink-bubble-focus-texture-decoration-244967691.jpg?w=360')",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  width: "100%",
+                  margin: "0%",
+                  padding: "0%",
+                  boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.3)",
+                  textAlign: "center",
+                }}
+              >
                 <p className="card-text">
                   <strong>Name: </strong> {authorDetail.username}
                 </p>
                 <p className="card-text">
                   <strong>Email: </strong> {authorDetail.email}
                 </p>
-                <div className="d-flex justify-content-center align-items-center">
-                  <button className="btn btn-primary pe-4 ps-4" onClick={handleEdit}>
+                <div className="d-flex justify-content-center align-items-center mt-4">
+                  <button
+                    className="btn btn-primary pe-4 ps-4"
+                    onClick={handleEdit}
+                  >
                     Edit
                   </button>
-                  <button className="btn btn-danger ms-4 pe-3 ps-3" onClick={handleDelete}>
+                  <button
+                    className="btn btn-danger ms-4 pe-3 ps-3"
+                    onClick={handleDelete}
+                  >
                     Delete
                   </button>
                 </div>
@@ -131,16 +153,18 @@ const AuthorDetails = () => {
           )}
         </div>
       </div>
-      <div className="row mt-3 justify-content-center">
-        <div className="col-md-6">
+      <div className="row mt-3 d-flex justify-content-center">
+        <div className="col-md-4">
           <button
-            className="btn btn-success btn-block mb-2 pe-4 ps-4"
+            className="btn btn-success btn-block pe-4 ps-4 ms-4"
+            style={{ marginLeft: "50px" }}
             onClick={handleCreateBlog}
           >
             Create Blog
           </button>
           <button
             className="btn btn-info btn-block ms-4 pe-3 ps-3"
+            style={{ marginLeft: "50px" }}
             onClick={handleViewBlogs}
           >
             View My Blogs

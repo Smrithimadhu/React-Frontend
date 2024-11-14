@@ -1,5 +1,5 @@
-import  Images  from "../assets/Images/AboutUs.jpg"
-import { Helmet} from "react-helmet-async";
+import Images from "../assets/Images/AboutUs.jpg";
+import { Helmet } from "react-helmet-async";
 
 const About = () => {
   return (
@@ -22,11 +22,15 @@ const About = () => {
               <div className="row justify-content-xl-center">
                 <div className="col-12 col-xl-11">
                   <h2 className="mb-3">ABOUT US</h2>
-                  <p className="lead fs-4 text-secondary mb-3">
-                  Blog management encompasses all the tasks involved in creating, maintaining, and growing a blog.
+                  <p className="lead fs-4 text-secondary mb-3 text-white">
+                    Blog management encompasses all the tasks involved in
+                    creating, maintaining, and growing a blog.
                   </p>
                   <p className="mb-5">
-                  We help you create and manage your blog easily, saving you valuable time and effort. Spend less time on technical details and more time doing what you love: creating amazing content
+                    We help you create and manage your blog easily, saving you
+                    valuable time and effort. Spend less time on technical
+                    details and more time doing what you love: creating amazing
+                    content
                   </p>
                   <div className="row gy-4 gy-md-0 gx-xxl-5X">
                     <div className="col-12 col-md-6">
@@ -46,7 +50,9 @@ const About = () => {
                         <div>
                           <h2 className="h4 mb-3">CRUD Operatins for Blog</h2>
                           <p className="text-secondary mb-0">
-                          Create, read, update, and delete blog posts and associated data. This enables full management of blog content.
+                            Create, read, update, and delete blog posts and
+                            associated data. This enables full management of
+                            blog content.
                           </p>
                         </div>
                       </div>
@@ -68,7 +74,9 @@ const About = () => {
                         <div>
                           <h2 className="h4 mb-3">CRUD Operations for Users</h2>
                           <p className="text-secondary mb-0">
-                          Create, read, update, and delete user accounts. This manages user registration, profiles, and access control.
+                            Create, read, update, and delete user accounts. This
+                            manages user registration, profiles, and access
+                            control.
                           </p>
                         </div>
                       </div>

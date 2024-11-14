@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IAuthor } from "../../models/IAuthor";
 import { IBlogCreation } from "../../models/IBlogCreation";
 import { toast, ToastContainer } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const CreateBlog = () => {
   const [isSaved, setIsSaved] = useState(false);
@@ -58,7 +59,7 @@ const CreateBlog = () => {
       const response = await axios.post(
         `http://localhost:8080/api/blogs/create/${userId}`,
         completeFormData
-      ); 
+      );
       console.log("Blog created:", response.data);
       toast.success("Blog added successfully!", {
         position: "top-center",
@@ -70,13 +71,13 @@ const CreateBlog = () => {
         progress: undefined,
       });
       setTimeout(() => {
-        navigate("/blogs"); 
+        navigate("/blogs");
       }, 2000);
       reset();
     } catch (err: any) {
       setError(
         err.response?.data?.error ||
-          err.message ||
+          err.message ||w
           "An unexpected error occurred. See console for details."
       );
       toast.error(err.message, {
@@ -96,6 +97,9 @@ const CreateBlog = () => {
 
   return (
     <div className="container">
+      <Helmet>
+        <title>Create Blog</title>
+      </Helmet>
       <ToastContainer />
       <div className="row">
         <div className="col-md-12">
@@ -106,7 +110,9 @@ const CreateBlog = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="mb-3">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">
+              <strong>Title</strong>
+            </label>
             <input
               type="text"
               className={`form-control ${errors.title ? "is-invalid" : ""}`}
@@ -119,7 +125,7 @@ const CreateBlog = () => {
 
           <div className="mb-3">
             <label htmlFor="category" className="form-label">
-              Category
+              <strong>Category</strong>
             </label>
             <select
               id="category"
@@ -139,7 +145,9 @@ const CreateBlog = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="content">Content</label>
+            <label htmlFor="content">
+              <strong>Content</strong>
+            </label>
             <textarea
               id="content"
               className={`form-control ${errors.content ? "is-invalid" : ""}`}
@@ -161,7 +169,11 @@ const CreateBlog = () => {
           {isSaved && <p>Blog created successfully!</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
 
-          <button type="submit" disabled={isLoading} className="btn btn-primary">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="btn btn-primary"
+          >
             {isLoading ? "Saving..." : "Create Blog"}
           </button>
         </form>

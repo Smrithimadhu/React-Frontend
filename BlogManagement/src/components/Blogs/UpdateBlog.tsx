@@ -1,38 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { toast, ToastContainer } from "react-toastify";
+import { IBlog } from "../../models/IBlog";
 // import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-
-
-interface Blog {
-  blogId: number;
-  title: string;
-  category: string;
-  content: string;
-}
 
 const UpdateBlog: React.FC = () => {
   const { blogId } = useParams();
-  const [blog, setBlog] = useState<Blog | null>(null);
+  const [blog, setBlog] = useState<IBlog | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [updatedBlog, setUpdatedBlog] = useState<Blog | null>(null);
-  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updatedBlog, setUpdatedBlog] = useState<IBlog | null>(null);
+  const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const numericBlogId = parseInt(blogId || "", 10); 
+        const numericBlogId = parseInt(blogId || "", 10);
         if (isNaN(numericBlogId)) {
           setError("Invalid Blog ID");
           return;
         }
-        const response = await axios.get<Blog>(`http://localhost:8080/api/blogs/view/${numericBlogId}`);
+        const response = await axios.get<IBlog>(
+          `http://localhost:8080/api/blogs/view/${numericBlogId}`
+        );
         setBlog(response.data);
       } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to fetch blog');
+        setError(err.response?.data?.message || "Failed to fetch blog");
       } finally {
         setLoading(false);
       }
@@ -43,10 +39,14 @@ const UpdateBlog: React.FC = () => {
     }
   }, [blogId]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     if (blog) {
       setBlog({ ...blog, [e.target.name]: e.target.value });
-      setFormErrors({ ...formErrors, [e.target.name]: '' });
+      setFormErrors({ ...formErrors, [e.target.name]: "" });
     }
   };
 
@@ -70,70 +70,125 @@ const UpdateBlog: React.FC = () => {
         setError("Invalid Blog ID");
         return;
       }
-      await axios.put(`http://localhost:8080/api/blogs/edit/${numericBlogId}`, blog);
+      await axios.put(
+        `http://localhost:8080/api/blogs/edit/${numericBlogId}`,
+        blog
+      );
       setUpdatedBlog(blog);
-      setUpdateSuccess(true);
+      if (updatedBlog) {
+        toast.success("Updated successfully!", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        setTimeout(() => {
+          navigate(`/blogs`);
+        }, 2000);
+      }
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to update blog');
+      toast.error("Update failed", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <div className="alert alert-danger">{error}</div>; 
+  if (error) return <div className="alert alert-danger">{error}</div>;
   if (!blog) return <p>Blog not found</p>;
 
   return (
     <>
-    <Helmet>
-    <title>Update Blog</title>
-  </Helmet>;
-    <div className="container mt-5" style={{backgroundImage:"url('https://img.freepik.com/premium-vector/modern-geometric-shapes-background-with-gradient-color_120451-49.jpg')",backgroundRepeat:"no-repeat",backgroundSize:"cover",width:"100%"}}>
-      {updateSuccess && <div className="alert alert-success">Blog updated successfully!</div>}
-      <h2 className='d-flex justify-content-center'>Update Blog</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3 px-4">
-          <label htmlFor="title" className="form-label">Title:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="title"
-            name="title"
-            value={blog.title}
-            onChange={handleInputChange}
-            required
-          />
-          {formErrors.title && <div className="text-danger">{formErrors.title}</div>}
-        </div>
-        <div className="mb-3 px-4">
-          <label htmlFor="category" className="form-label">Category:</label>
-          <input
-            type="text"
-            className="form-control"
-            id="category"
-            name="category"
-            value={blog.category}
-            onChange={handleInputChange}
-            required
-          />
-          {formErrors.category && <div className="text-danger">{formErrors.category}</div>}
-        </div>
-        <div className="mb-3 px-4">
-          <label htmlFor="content" className="form-label">Content:</label>
-          <textarea
-            className="form-control"
-            id="content"
-            name="content"
-            value={blog.content}
-            onChange={handleInputChange}
-            required
-          />
-          {formErrors.content && <div className="text-danger">{formErrors.content}</div>}
-        </div>
-        <div className='d-flex justify-content-center pb-4'>
-        <button type="submit" className="btn btn-primary">Update Blog</button>
-        </div>
-      </form>
-    </div>
+      <Helmet>
+        <title>Update Blog</title>
+      </Helmet>
+      <div
+        className="container mt-5 text-black rounded-5"
+        style={{
+          backgroundImage:
+            "url('https://thumbs.dreamstime.com/b/abstract-blurred-orange-color-peach-background-blur-festival-lights-outdoor-pink-bubble-focus-texture-decoration-244967691.jpg?w=360')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          width: "100%",
+        }}
+      >
+        <ToastContainer />
+        <h2 className="d-flex justify-content-center pt-4">UPDATE BLOG</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3 px-4">
+            <label htmlFor="title" className="form-label">
+              <strong>Title:</strong>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="title"
+              name="title"
+              value={blog.title}
+              onChange={handleInputChange}
+              required
+            />
+            {formErrors.title && (
+              <div className="text-danger">{formErrors.title}</div>
+            )}
+          </div>
+          <div className="mb-3 px-4">
+            <label htmlFor="category" className="form-label">
+              <strong>Category:</strong>
+            </label>
+            <select
+              id="category"
+              className={`form-select ${
+                formErrors.category ? "is-invalid" : ""
+              }`}
+              name="category"
+              value={blog.category}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="TECHNOLOGY">TECHNOLOGY</option>
+              <option value="TRAVEL">TRAVEL</option>
+              <option value="FOOD">FOOD</option>
+              <option value="SPORTS">SPORTS</option>
+              <option value="POLITICS">POLITICS</option>
+            </select>
+            {formErrors.category && (
+              <div className="text-danger">{formErrors.category}</div>
+            )}
+          </div>
+          <div className="mb-3 px-4">
+            <label htmlFor="content" className="form-label">
+              <strong>Content:</strong>
+            </label>
+            <textarea
+              className="form-control"
+              id="content"
+              name="content"
+              value={blog.content}
+              onChange={handleInputChange}
+              required
+            />
+            {formErrors.content && (
+              <div className="text-danger">{formErrors.content}</div>
+            )}
+          </div>
+          <div className="d-flex justify-content-center pb-4">
+            <button type="submit" className="btn btn-primary">
+              Update Blog
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };
